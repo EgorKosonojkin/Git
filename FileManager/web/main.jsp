@@ -4,6 +4,7 @@
     Author     : monknax
 --%>
 
+<%@page import="classes.Actions"%>
 <%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -19,9 +20,7 @@
             
             <% request.setCharacterEncoding("UTF-8");
             // определяем объект для каталога
-            
             File f = new File(request.getParameter("path")+"/");
-            if(f.isDirectory()){
             %>
             
             <p>Вы находитесь здесь
@@ -34,30 +33,38 @@
                 <tr>
                     <th>Name</th>
                     <th>Size</th>
+                    <th>Type</th>
                     <th>LastModified</th>
+                    <th>Path</th>
                 </tr>
                 <%  
-                        for(File item : f.listFiles()){ 
+                        for(File item : f.listFiles()){
+                        Actions action = new Actions(item);    
+                         
                 %>
                 <tr><td>
                         <%
-                            out.println(item.getName());
+                            out.println(action.getFileName());
                             // имя файла
                         %> 
                 </td>
                 <td align="right">    <% //размер файла
-                            out.println(servlets.FileAction.getFileSize(item)); 
+                            out.println(action.getFileSize(item)); 
                         %>
                 </td>
-                
+                <td>    <% //тип файла
+                            out.println(action.getFileType(item)); 
+                        %>
+                </td>
                 <td>
                         <%//дата поседней модификации
-                            out.println(item.lastModified());} //разобраться с переводом в нормальную дату
-                        }
-                    } if(f.isFile()) {
-                        //fas
-                        }   
+                            out.println(action.getLastMod(item)); //разобраться с переводом в нормальную дату
                         %>
+                </td>
+                <td>    <% //тип файла
+                            out.println(action.getFileParant(item)); 
+                        }
+                }%>
                 </td></tr> 
             </table>
     </form>            
