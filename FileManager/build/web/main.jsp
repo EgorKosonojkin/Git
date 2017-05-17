@@ -15,13 +15,19 @@
     </head>
     <body>
        <form name="leftForm" action="main.jsp" method="POST" target="leftForm">
-            <input type="text" name="path" value="/" size="85"/>
-            <input type="submit" value="Brows"/>
+            
             
             <% request.setCharacterEncoding("UTF-8");
             // определяем объект для каталога
-            File f = new File(request.getParameter("path")+"/");
+            String spath = request.getParameter("path");
+            File f = new File(spath+"/");
             %>
+            <input type="text" name="path" value="<%out.println(spath);%>" size="85"/>
+            <input type="submit" value="Brows"/>
+            <input type="text" name="create" value="" size="15"/>
+            <input type="submit" value="Create"/>
+            <input type="text" name="delete" value="" size="15"/>
+            <input type="submit" value="Delete"/>
             
             <p>Вы находитесь здесь
                 <%out.println(f.getAbsolutePath());%>
@@ -40,31 +46,35 @@
                 <%  
                         for(File item : f.listFiles()){
                         Actions action = new Actions(item);    
-                         
                 %>
                 <tr><td>
                         <%
-                            out.println(action.getFileName());
-                            // имя файла
+                            out.println(action.getFileName());//имя файла
                         %> 
                 </td>
-                <td align="right">    <% //размер файла
-                            out.println(action.getFileSize(item)); 
+                <td align="right">    <% 
+                            out.println(action.getFileSize(item));//размер файла
                         %>
                 </td>
-                <td>    <% //тип файла
-                            out.println(action.getFileType(item)); 
+                <td>    <% 
+                            out.println(action.getFileType(item));//тип файла
                         %>
                 </td>
                 <td>
-                        <%//дата поседней модификации
-                            out.println(action.getLastMod(item)); //разобраться с переводом в нормальную дату
+                        <%
+                            out.println(action.getLastMod(item));//дата последнего изменения
                         %>
                 </td>
-                <td>    <% //тип файла
-                            out.println(action.getFileParant(item)); 
+                <td>    <% 
+                            out.println(action.getFileParant(item)); //путь к файлу
                         }
-                }%>
+                }
+                
+                Actions.createFile(spath + request.getParameter("create"));
+                
+                Actions.deleteFile(spath + request.getParameter("delete"));
+                
+                %>
                 </td></tr> 
             </table>
     </form>            

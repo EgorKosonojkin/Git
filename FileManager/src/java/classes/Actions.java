@@ -6,7 +6,10 @@
 package classes;
 
 import java.io.File;
+import java.io.IOException;
+import static java.lang.System.out;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  *
@@ -22,10 +25,10 @@ public class Actions {
     
     public Actions(File file){
         FileName=file.getName();
-        FilelSize=getFileSize(file);
+        /*FilelSize=getFileSize(file);
         LastMod=getLastMod(file);
         FileParant=getFileParant(file);
-        FileType=getFileType(file);
+        FileType=getFileType(file);*/
         
     }
     
@@ -44,7 +47,7 @@ public class Actions {
                     size=file.length()/1024/1024+" Gb";    
                 }
             size=file.length()/1024+" Mb";        
-                }
+            }
         else
         size=file.length()+" byte";
         return size;
@@ -69,7 +72,32 @@ public class Actions {
         return file.getParent();
     }
     
-    public 
+    public ArrayList ViewFileList(File file) throws IOException{
+        ArrayList<File> listFile = new ArrayList<File>();
+            
+                for(File item: file.listFiles()){
+                        listFile.add(item);
+                }
+            return listFile;
+    }
+    
+    public static void createFile(String s) throws IOException{
+        File file = new File(s);
+        if(file.exists()){
+            out.println("File exist");
+        }else{
+            file.createNewFile();
+        }
+    }
+    
+    public static void deleteFile(String s) throws IOException{
+        File file = new File(s);
+        if(file.exists()){
+            file.delete();
+        }else{
+            out.println("File not exist");
+        }
+    }
     
     /*public Actions getFileList(File[] fileList){
         for(File item: fileList){
