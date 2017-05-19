@@ -15,7 +15,7 @@
     </head>
     <body>
        <form name="leftForm" action="main.jsp" method="POST" target="leftForm">
-            
+       <div>     
             
             <% request.setCharacterEncoding("UTF-8");
             // определяем объект для каталога
@@ -33,7 +33,12 @@
                 <%out.println(f.getAbsolutePath());%>
             </p>
             <p>Для перехода к каталогу введите его имя</p>
-            <%//получаем список директорий и файлов
+            <%
+                Actions.createFile(spath + request.getParameter("create"));
+                
+                Actions.deleteFile(spath + request.getParameter("delete"));
+            
+            //получаем список директорий и файлов
             if(f.isDirectory()){%>
             <table border="1px" bgcolor="#FFFFCC" >
                 <tr>
@@ -70,13 +75,12 @@
                         }
                 }
                 
-                Actions.createFile(spath + request.getParameter("create"));
-                
-                Actions.deleteFile(spath + request.getParameter("delete"));
+               
                 
                 %>
                 </td></tr> 
             </table>
+       </div>
     </form>            
     </body>
 </html>
