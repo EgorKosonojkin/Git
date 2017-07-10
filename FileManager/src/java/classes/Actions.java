@@ -6,6 +6,9 @@
 package classes;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import static java.lang.System.out;
 import java.text.SimpleDateFormat;
@@ -72,14 +75,14 @@ public class Actions {
         return file.getParent();
     }
     
-    public ArrayList ViewFileList(File file) throws IOException{
+    /*public ArrayList ViewFileList(File file) throws IOException{
         ArrayList<File> listFile = new ArrayList<File>();
             
                 for(File item: file.listFiles()){
                         listFile.add(item);
                 }
             return listFile;
-    }
+    }*/
     
     public static void createFile(String s) throws IOException{
         File file = new File(s);
@@ -97,6 +100,43 @@ public class Actions {
         }else{
             out.println("File not exist");
         }
+    }
+    
+    public static void copyFile(String filename, String copyfilename) throws FileNotFoundException, IOException{
+        File file = new File(filename);
+        File cfile = new File(copyfilename);
+        int i = (int) file.length();
+        FileInputStream fis = new FileInputStream(file);
+        FileOutputStream fos = new FileOutputStream(cfile);
+        try{
+            byte[] buff = new byte[i];
+            int lengthf;
+            while((lengthf=fis.read(buff))>0){
+                fos.write(buff,0,lengthf);
+            }
+        }
+        finally{
+            fis.close();
+            fos.close();
+        }
+    }
+    
+    public static void renameFile(String s) throws FileNotFoundException, IOException{
+        File file = new File(s);//проверить
+        int i = (int) file.length();
+        FileInputStream fis = new FileInputStream(file);
+        FileOutputStream fos = new FileOutputStream(file);
+        try{
+            byte[] buff = new byte[i];
+            int lengthf;
+            while((lengthf=fis.read(buff))>0){
+                fos.write(buff,0,lengthf);
+            }
+        }
+        finally{
+            fis.close();
+            fos.close();
+        }        
     }
     
     /*public Actions getFileList(File[] fileList){
