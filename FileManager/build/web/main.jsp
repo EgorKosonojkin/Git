@@ -4,6 +4,7 @@
     Author     : monknax
 --%>
 
+<%@page import="classes.FileService"%>
 <%@page import="classes.OpSys"%>
 <%@page import="classes.Actions"%>
 <%@page import="java.io.File"%>
@@ -19,28 +20,8 @@
             
             <% request.setCharacterEncoding("UTF-8");
             // определяем объект для каталога
-            String spath = null; String os;
-            os = OpSys.getOS();
-            if ((os.indexOf("nix"))>=0){
-                if (request.getParameter("path")==null){
-                    spath="/";
-                    
-                }else {
-                    spath=request.getParameter("path");
-                }
-            }
-            if ((os.indexOf("windows"))>=0){
-                if (request.getParameter("path")==null){
-                    spath="C:/";
-                }else {
-                    spath=request.getParameter("path");
-                }
-            }
-            if (OpSys.sysMac()){
-                out.println("Your systen isn`t supported!");
-            } 
-            
-            File f = new File(spath);
+            File spath = FileService.getPath(request.getParameter("path"));
+           
             %>
             Path <br>
             <input type="text" name="path" value="<%out.println(spath);%>" size="85"/>
@@ -52,28 +33,28 @@
             <input type="text" name="delete" value="" size="15"/>
             <input type="submit" value="Delete"/> <br>
             FileName <br>
-            <input type="text" name="file" value="" size="15"/><br>
+            <input type="text" name="file" value="test" size="15"/><br>
             CopyFileName <br>
-            <input type="text" name="cfile" value="" size="15"/>
+            <input type="text" name="cfile" vlue="testcopy" size="15"/>
             <input type="submit" value="Copy"/><br>
             Rename<br>
             <input type="text" name="rename" value="" size="15"/>
             <input type="submit" value="Rename"/><br>
             <p>Вы находитесь здесь
-                <%out.println(f.getAbsolutePath());%>
+                <%out.println(spath.getAbsolutePath());%>
             </p>
             <p>Для перехода к каталогу введите его имя</p>
             <%
-                Actions.createFile(spath + request.getParameter("create"));
+                Actions.createFile(spath.getAbsolutePath().toString() + request.getParameter("create"));
                 
-                Actions.deleteFile(spath + request.getParameter("delete"));
+                Actions.deleteFile(spath.getAbsolutePath().toString() + request.getParameter("daelete"));
                 
-                Actions.copyFile(spath + request.getParameter("file"),"/"+request.getParameter("cfile"));
+                Actions.copyFile(spath.getAbsolutePath().toString() + request.getParameter("file"),request.getParameter("cfile"));
                 
-                Actions.renameFile(spath + request.getParameter("rename"));
+                Actions.renameFile(spath.getAbsolutePath().toString() + request.getParameter("rename"));
             
             //получаем список директорий и файлов
-            if(f.isDirectory()){%>
+            if(spath.isDirectory()){%>
             <table border="1px" bgcolor="#FFFFCC" >
                 <tr>
                     <th>Name</th>
@@ -83,7 +64,7 @@
                     <th>Path</th>
                 </tr>
                 <%  
-                        for(File item : f.listFiles()){
+                        for(File item : spath.listFiles()){
                         Actions action = new Actions(item);    
                 %>
                 <tr><td>

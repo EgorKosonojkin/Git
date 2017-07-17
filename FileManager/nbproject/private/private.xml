@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Download/Git-master/FileManager/web/main.jsp</file>
-            <file>file:/D:/Download/Git-master/FileManager/src/java/classes/Actions.java</file>
+            <file>file:/D:/Download/Git-master/Git-master/FileManager/src/java/classes/OpSys.java</file>
+            <file>file:/D:/Download/Git-master/Git-master/FileManager/web/main.jsp</file>
+            <file>file:/D:/Download/Git-master/Git-master/FileManager/src/java/classes/Actions.java</file>
+            <file>file:/D:/Download/Git-master/Git-master/FileManager/src/java/classes/FileService.java</file>
         </group>
     </open-files>
 </project-private>
